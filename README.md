@@ -1,3 +1,3 @@
-# Iterable ETL
+# Iterable Data Import
 
-Iterable ETL library. You write the transformations, and the library handles the extract and load process.
+A library to simplifiy importing data into Iterable. You write the transformations, and the library handles the extract and load process.
