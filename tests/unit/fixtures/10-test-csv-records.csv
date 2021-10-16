@@ -1,0 +1,11 @@
+id,email,brand_affinity_score,street_address,city,state,zip,loves_pizza
+1,test1@placeholder.email,35,71 Stevenson St.,San Francisco,CA,94103,true
+2,test2@placeholder.email,35,71 Stevenson St.,San Francisco,CA,94103,true
+3,test3@placeholder.email,35,71 Stevenson St.,San Francisco,CA,94103,true
+4,test4@placeholder.email,35,71 Stevenson St.,San Francisco,CA,94103,true
+5,test5@placeholder.email,35,71 Stevenson St.,San Francisco,CA,94103,true
+6,test6@placeholder.email,35,71 Stevenson St.,San Francisco,CA,94103,true
+7,test7@placeholder.email,35,71 Stevenson St.,San Francisco,CA,94103,true
+8,test8@placeholder.email,35,71 Stevenson St.,San Francisco,CA,94103,true
+9,test9@placeholder.email,35,71 Stevenson St.,San Francisco,CA,94103,true
+10,test10@placeholder.email,35,71 Stevenson St.,San Francisco,CA,94103,true

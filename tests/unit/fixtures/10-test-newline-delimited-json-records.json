@@ -1,0 +1,10 @@
+{"id": 1, "email": "test@placeholder.email", "brand_affinity_score": 35, "address": {"street_address": "71 Stevenson St.", "city": "San Francisco", "state": "CA", "zip": "941043"}, "loves_pizza": true}
+{"id": 2, "email": "test@placeholder.email", "brand_affinity_score": 1, "address": {"street_address": "71 Stevenson St.", "city": "San Francisco", "state": "CA", "zip": "941043"}, "loves_pizza": true}
+{"id": 3, "email": "test@placeholder.email", "brand_affinity_score": 90, "address": {"street_address": "71 Stevenson St.", "city": "San Francisco", "state": "CA", "zip": "941043"}, "loves_pizza": true}
+{"id": 4, "email": "test@placeholder.email", "brand_affinity_score": 27, "address": {"street_address": "71 Stevenson St.", "city": "San Francisco", "state": "CA", "zip": "941043"}, "loves_pizza": true}
+{"id": 5, "email": "test@placeholder.email", "brand_affinity_score": 58, "address": {"street_address": "71 Stevenson St.", "city": "San Francisco", "state": "CA", "zip": "941043"}, "loves_pizza": true}
+{"id": 6, "email": "test@placeholder.email", "brand_affinity_score": 99, "address": {"street_address": "71 Stevenson St.", "city": "San Francisco", "state": "CA", "zip": "941043"}, "loves_pizza": true}
+{"id": 7, "email": "test@placeholder.email", "brand_affinity_score": 22, "address": {"street_address": "71 Stevenson St.", "city": "San Francisco", "state": "CA", "zip": "941043"}, "loves_pizza": true}
+{"id": 8, "email": "test@placeholder.email", "brand_affinity_score": 100, "address": {"street_address": "71 Stevenson St.", "city": "San Francisco", "state": "CA", "zip": "941043"}, "loves_pizza": true}
+{"id": 9, "email": "test@placeholder.email", "brand_affinity_score": 86, "address": {"street_address": "71 Stevenson St.", "city": "San Francisco", "state": "CA", "zip": "941043"}, "loves_pizza": true}
+{"id": 10, "email": "test@placeholder.email", "brand_affinity_score": 14, "address": {"street_address": "71 Stevenson St.", "city": "San Francisco", "state": "CA", "zip": "941043"}, "loves_pizza": true}
