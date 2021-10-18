@@ -28,11 +28,14 @@ class CustomEvent(IterableResource):
         campaign_id: Optional[int] = None,
         created_at: Optional[int] = None,
     ):
-        if data_fields is None:
-            data_fields = {}
+        if not event_name:
+            raise ValueError("Custom events must have an event_name")
 
         if not email and not user_id:
             raise ValueError("Custom events must have an email or user_id")
+
+        if data_fields is None:
+            data_fields = {}
 
         self.event_name = event_name
         self.email = email
@@ -46,9 +49,9 @@ class CustomEvent(IterableResource):
     @property
     def to_api_dict(self):
         event_dict = {
+            "eventName": self.event_name,
             "email": self.email,
             "userId": self.user_id,
-            "eventName": self.event_name,
             "dataFields": self.data_fields,
             "id": self.event_id,
             "templateId": self.template_id,
@@ -56,6 +59,9 @@ class CustomEvent(IterableResource):
             "createdAt": self.created_at,
         }
         return self._remove_none_values(event_dict)
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.event_name}, {self.email}, {self.user_id})"
 
 
 class UserProfile(IterableResource):
@@ -94,6 +100,10 @@ class UserProfile(IterableResource):
         }
         return user_dict
 
+    def __repr__(self):
+        identifiers = [x for x in [self.email, self.user_id] if x]
+        return f'{self.__class__.__name__}({", ".join(identifiers)})'
+
 
 class CommerceItem(IterableResource):
     """
@@ -113,7 +123,7 @@ class CommerceItem(IterableResource):
         url: Optional[str] = None,
         data_fields: Optional[Dict[str, Any]] = None,
     ) -> None:
-        if not item_id or name or price or quantity:
+        if not item_id or not name or not price or not quantity:
             raise ValueError(
                 "Commerce items must contain an item_id, name, price, and quantity"
             )
@@ -145,6 +155,9 @@ class CommerceItem(IterableResource):
         }
         return self._remove_none_values(commerce_item_dict)
 
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.item_id}, {self.name}, {self.price}, {self.quantity})"
+
 
 class Purchase(IterableResource):
     """
@@ -162,7 +175,7 @@ class Purchase(IterableResource):
         campaign_id: Optional[int] = None,
         template_id: Optional[int] = None,
     ):
-        if not user or items or total:
+        if not user or not items or not total:
             raise ValueError("Purchases must contain a user, items, and total")
 
         self.user = user
@@ -187,3 +200,6 @@ class Purchase(IterableResource):
             "dataFields": self.data_fields,
         }
         return self._remove_none_values(purchase_dict)
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}({self.user}, [{", ".join([str(item) for item in self.items])}], {self.total})'

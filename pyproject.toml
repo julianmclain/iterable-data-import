@@ -16,6 +16,7 @@ pytest-cov = "^2.12.1"
 python-dotenv = "^0.19.1"
 iterablepythonwrapper = "^1.1"
 Faker = "^9.3.1"
+pytest-mock = "^3.6.1"
 
 [tool.poetry.scripts]
 iterable-data-import = "iterable_data_import.iterable_data_import:main"

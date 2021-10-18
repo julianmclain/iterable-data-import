@@ -23,7 +23,7 @@ class TrackCustomEvent(ImportAction):
     An instruction to track a custom event
     """
 
-    def __init__(self, event: CustomEvent):
+    def __init__(self, event: CustomEvent) -> None:
         self.event = event
 
 
@@ -32,5 +32,13 @@ class TrackPurchase(ImportAction):
     An instruction to track a purchase
     """
 
-    def __init__(self, purchase: Purchase):
+    def __init__(self, purchase: Purchase) -> None:
         self.purchase = purchase
+
+
+class AddUserToList(ImportAction):
+    """
+    An instruction to add a user to a list
+    """
+
+    pass

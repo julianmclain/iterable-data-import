@@ -1,16 +1,3 @@
-# Iterable Data Import
-
-A library to simplify bulk importing data into Iterable. You write the transformations, and the library handles the extract and load process.
-
-## Getting Started
-
-install from pypi
-
-## Usage
-
-At a high level, the library is used by constructing an `IterableDataImport` instance and calling `IterableDataImport.run` to initiate the import.
-
-```python3
 import pathlib
 
 from iterable_data_import import (
@@ -38,8 +25,3 @@ if __name__ == "__main__":
         api_key, source_path, source_format, map_function, dry_run=True
     )
     idi.run()
-```
-
-## Advanced Usage
-
-wiring up an instance without the create factory

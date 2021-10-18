@@ -29,7 +29,7 @@ class MapErrorRecorder(metaclass=ABCMeta):
         pass
 
 
-class FileSystemMapErrorRecorder:
+class FileSystemMapErrorRecorder(MapErrorRecorder):
     """
     A map error recorder that writes errors to the local file system. Errors are persisted
     as newline delimited JSON objects.
@@ -49,7 +49,7 @@ class FileSystemMapErrorRecorder:
             f.write(json.dumps(error) + "\n")
 
 
-class NoOpMapErrorRecorder:
+class NoOpMapErrorRecorder(MapErrorRecorder):
     """
     A map error recorder that performs no action
     """

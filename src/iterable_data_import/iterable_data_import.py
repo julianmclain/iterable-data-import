@@ -1,13 +1,22 @@
 import logging
-from typing import Callable, Optional
+from pathlib import PurePath
+from typing import Callable, List, Optional
 
-from iterable_data_import.data_sources.data_source import DataSource
+from iterable_data_import import ImportAction, SyncApiImporter, FileSystem
+from iterable_data_import.data_sources.data_source import DataSource, FileFormat
+from iterable_data_import.error_recorders.api_error_recorder import (
+    ApiErrorRecorder,
+    NoOpApiErrorRecorder,
+    FileSystemApiErrorRecorder,
+)
 from iterable_data_import.error_recorders.map_error_recorder import (
     MapErrorRecorder,
     NoOpMapErrorRecorder,
+    FileSystemMapErrorRecorder,
 )
 from iterable_data_import.importers.importer import Importer
 from iterable_data_import.importers.no_op_importer import NoOpImporter
+from iterable_data_import.importers.sync_api_client import SyncApiClient
 
 
 class IterableDataImport:
@@ -20,8 +29,7 @@ class IterableDataImport:
         data_source: DataSource,
         importer: Importer,
         map_function: Callable,
-        map_error_recorder: Optional[MapErrorRecorder] = None,
-        dry_run: bool = False,
+        map_error_recorder: MapErrorRecorder,
     ) -> None:
         if not data_source:
             raise ValueError('Missing required argument "data_source"')
@@ -32,10 +40,11 @@ class IterableDataImport:
         if not map_function:
             raise ValueError('Missing required argument "map_function"')
 
-        self.map_error_recorder = (
-            map_error_recorder if map_error_recorder else NoOpMapErrorRecorder()
-        )
-        self.importer = importer if not dry_run else NoOpImporter()
+        if not map_error_recorder:
+            raise ValueError('Missing required argument "map_error_recorder"')
+
+        self.map_error_recorder = map_error_recorder
+        self.importer = importer
         self.data_source = data_source
         self.map_function = map_function
         self.map_error_recorder = map_error_recorder
@@ -43,22 +52,81 @@ class IterableDataImport:
 
     def run(self) -> bool:
         self._logger.info("starting import...")
-        for count, record in enumerate(self.data_source, 1):
+        count = (
+            0  # TODO - track count in DataSource, needed for partial restarts anyways
+        )
+
+        for record in self.data_source:
+            count += 1
             map_fn_return = None
+
             try:
                 map_fn_return = self.map_function(record)
             except Exception as e:
                 self._logger.error(f"an error occurred processing record {count}: {e}")
                 self.map_error_recorder.record(e, record)
 
-            if isinstance(map_fn_return, list):
-                self.importer.handle_actions(map_fn_return)
-            elif map_fn_return is not None:
-                self.importer.handle_actions([map_fn_return])
+            import_actions = self._get_import_actions(map_fn_return)
+            self.importer.handle_actions(import_actions)
 
             if count % 1000 == 0:
                 self._logger.info(f"imported {count} records")
 
         self.importer.shutdown()
-        self._logger.info("import complete")
+        self._logger.info(f"import complete, processed {count} source data records")
         return True
+
+    @staticmethod
+    def _get_import_actions(unknown: object) -> List[ImportAction]:
+        actions = []
+        maybe_actions = unknown if isinstance(unknown, list) else [unknown]
+        for obj in maybe_actions:
+            if isinstance(obj, ImportAction):
+                actions.append(obj)
+        return actions
+
+    # TODO - create a builder / factory class
+    # TODO - probably better to log errors somewhere by default
+    @classmethod
+    def create(
+        cls,
+        api_key: str,
+        source_file_path: PurePath,
+        source_file_format: FileFormat,
+        map_function: Callable,
+        map_function_error_out: Optional[PurePath] = None,
+        api_error_out: Optional[PurePath] = None,
+        dry_run: bool = False,
+    ) -> "IterableDataImport":
+        if not api_key:
+            raise ValueError('Missing required argument "api_key"')
+
+        if not source_file_path:
+            raise ValueError('Missing required argument "source_file_path"')
+
+        if not source_file_format:
+            raise ValueError('Missing required argument "source_file_format"')
+
+        if not map_function:
+            raise ValueError('Missing required argument "map_function"')
+
+        if dry_run:
+            importer = NoOpImporter()
+        else:
+            api_client = SyncApiClient(api_key)
+            api_error_recorder = (
+                FileSystemApiErrorRecorder(api_error_out)
+                if api_error_out
+                else NoOpApiErrorRecorder()
+            )
+            importer = SyncApiImporter(api_client, api_error_recorder)
+
+        map_error_recorder = (
+            FileSystemMapErrorRecorder(map_function_error_out)
+            if map_function_error_out
+            else NoOpMapErrorRecorder()
+        )
+
+        source = FileSystem(source_file_path, source_file_format)
+        idi = IterableDataImport(source, importer, map_function, map_error_recorder)
+        return idi
