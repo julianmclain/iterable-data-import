@@ -34,11 +34,3 @@ class TrackPurchase(ImportAction):
 
     def __init__(self, purchase: Purchase) -> None:
         self.purchase = purchase
-
-
-class AddUserToList(ImportAction):
-    """
-    An instruction to add a user to a list
-    """
-
-    pass
