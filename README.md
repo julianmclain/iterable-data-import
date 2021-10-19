@@ -44,29 +44,38 @@ if __name__ == "__main__":
 
 ImportActions represent actions that the library can perform on an IterableResource. User provided map functions should return a single ImportAction or a list of ImportActions.
 
-The following ImportActions are currently supported:
-- UpdateUserProfile
-- TrackCustomEvent
-- TrackPurchase
-
 [See full class details](/src/iterable_data_import/import_action.py)
+
+### UpdateUserProfile
+
+| Property | Type        | Description        | Notes |
+|----------|-------------|--------------------|-------|
+| user     | UserProfile | The user to update |       |
+
+### TrackCustomEvent
+
+| Property     | Type        | Description                | Notes |
+|--------------|-------------|----------------------------|-------|
+| custom_event | CustomEvent | The custom event to create |       |
+
+### TrackPurchase
+
+| Property | Type     | Description            | Notes |
+|----------|----------|------------------------|-------|
+| purchase | Purchase | The purchase to create |       |
+
 
 ## IterableResource
 
 IterableResources are the entities imported or updated in Iterable.
 
-The following IterableResources are currently supported:
+[See full class details](/src/iterable_data_import/iterable_resource.py)
 
 ### UserProfile
 
-| Property | Type | Description |
-|----------|------|-------------|
-| email    | str  | user email  |
-|          |      |             |
-|          |      |             |
-
-[See full class details](/src/iterable_data_import/iterable_resource.py)
-
-## Advanced Usage
-
-wiring up an instance without the create factory
+| Property             | Type                     | Description                                    | Notes                                            |
+|----------------------|--------------------------|------------------------------------------------|--------------------------------------------------|
+| email                | Optional[str]            | Email address                                  | Either email or user_id required; must be unique |
+| user_id              | Optional[str]            | User identifier                                | Must be unique                                   |
+| data_fields          | Optional[Dict[str, Any]] | Custom attributes                              |                                                  |
+| prefer_user_id       | bool                     | Create a new user with user_id if nonexistent  | Default False                                    |
