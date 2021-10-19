@@ -8,12 +8,16 @@ install from pypi
 
 ## Usage
 
-To run an import, create an`IterableDataImport` instance and call `IterableDataImport.run` with a function that accepts 
-a `SourceDataRecord` and returns an [ImportAction](#ImportAction). `SourceDataRecord` is a type alias for `Dict[str, Any]`. When `IterableDataImort.run` is called, the library will:
+To run an import, create an`IterableDataImport` instance and call
+`IterableDataImport.run` with a function that accepts a `SourceDataRecord` and
+returns an [ImportAction](#ImportAction). `SourceDataRecord` is a type alias for
+`Dict[str, Any]`. When `IterableDataImort.run` is called, the library will:
 1. Stream records 1 at a time from your data source
 2. Parse each record into a `SourceDataRecord`
-3. Call your function to map the `SourceDataRecord` to an Iterable `ImportAction`
-4. Use batching to efficiently transfer the data to Iterable (only via API for now)
+3. Call your function to map the `SourceDataRecord` to an Iterable
+   `ImportAction`
+4. Use batching to efficiently transfer the data to Iterable (only via API for
+   now)
 
 Given the following example data:
 ```
@@ -22,7 +26,7 @@ id,email,lifetime_value
 ```
 
 Example usage:
-```python3
+```python
 import pathlib
 
 from iterable_data_import import (
@@ -53,43 +57,53 @@ if __name__ == "__main__":
 
 ## ImportAction
 
-ImportActions represent actions that the library can perform on an IterableResource. User provided map functions should return a single ImportAction or a list of ImportActions.
+`ImportAction` represents actions that the library can perform on an
+`IterableResource`. Your map function can return a single
+`ImportAction` or a list of `ImportAction`.
 
 [See full class details](/src/iterable_data_import/import_action.py)
 
 ### UpdateUserProfile
 
-| Property     | Type        | Description                | Notes |
-|--------------|-------------|----------------------------|-------|
-| user         | UserProfile | The user to update         |       |
+```python
+class UpdateUserProfile(ImportAction):
+    def __init__(self, user: UserProfile) -> None:
+```
 
 ### TrackCustomEvent
 
-| Property     | Type        | Description                | Notes |
-|--------------|-------------|----------------------------|-------|
-| custom_event | CustomEvent | The custom event to create |       |
+```python
+class TrackCustomEvent(ImportAction):
+    def __init__(self, event: CustomEvent) -> None:
+```
 
 ### TrackPurchase
 
-| Property     | Type        | Description                | Notes |
-|--------------|-------------|----------------------------|-------|
-| purchase     | Purchase    | The purchase to create     |       |
-
+```python
+class TrackPurchase(ImportAction):
+    def __init__(self, purchase: Purchase) -> None:
+```
 
 ## IterableResource
 
-IterableResources are the entities imported or updated in Iterable.
+`IterableResource` represents the entities to be imported or updated in Iterable.
 
 [See full class details](/src/iterable_data_import/iterable_resource.py)
 
 ### UserProfile
 
-| Property             | Type                     | Description                                    | Notes                                            |
-|----------------------|--------------------------|------------------------------------------------|--------------------------------------------------|
-| email                | Optional[str]            | Email address                                  | Either email or user_id required; must be unique |
-| user_id              | Optional[str]            | User identifier                                | Must be unique                                   |
-| data_fields          | Optional[Dict[str, Any]] | Custom attributes                              |                                                  |
-| prefer_user_id       | bool                     | Create a new user with user_id if nonexistent  | Default False                                    |
+At least 1 of `email` or `user_id` must be provided.
+```python3
+class UserProfile(IterableResource):
+    def __init__(
+        self,
+        email: Optional[str] = None,
+        user_id: Optional[str] = None,
+        data_fields: Optional[Dict[str, Any]] = None,
+        prefer_user_id: bool = False,
+        merge_nested_objects: bool = False,
+    ) -> None:
+```
 
 ### CustomEvent
 
