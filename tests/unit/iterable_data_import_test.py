@@ -77,9 +77,7 @@ def test_create_instance():
 
 
 def test_create_instance_with_dry_run():
-    idi = IterableDataImport.create(
-        API_KEY, SOURCE_PATH, SOURCE_FORMAT, dry_run=True
-    )
+    idi = IterableDataImport.create(API_KEY, SOURCE_PATH, SOURCE_FORMAT, dry_run=True)
     assert isinstance(idi.data_source, FileSystem)
     assert idi.data_source.file_path == SOURCE_PATH
     assert idi.data_source.file_format == SOURCE_FORMAT

@@ -21,9 +21,8 @@ if __name__ == "__main__":
         api_key,
         source_path,
         source_format,
-        map_function,
         map_error_out,
         api_error_out,
         dry_run=True,
     )
-    idi.run()
+    idi.run(map_function)

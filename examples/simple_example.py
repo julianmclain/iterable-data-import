@@ -10,9 +10,6 @@ from iterable_data_import import (
 )
 
 if __name__ == "__main__":
-    source_path = pathlib.Path(__file__).parent / "data.json"
-    source_format = FileFormat.NEWLINE_DELIMITED_JSON
-    api_key = "some_api_key"
 
     def map_function(record: SourceDataRecord) -> ImportAction:
         email = record["email"]
@@ -22,6 +19,9 @@ if __name__ == "__main__":
         return UpdateUserProfile(user)
 
     idi = IterableDataImport.create(
-        api_key, source_path, source_format, map_function, dry_run=True
+        api_key="some_api_key",
+        source_file_path=pathlib.Path(__file__).parent / "data.csv",
+        source_file_format=FileFormat.CSV,
     )
-    idi.run()
+
+    idi.run(map_function)
