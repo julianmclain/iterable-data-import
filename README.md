@@ -1,6 +1,6 @@
 # Iterable Data Import
 
-`iterable-data-import` is a library to simplify ad-hoc bulk imports for [Iterable](https://iterable.com). 
+`iterable-data-import` is a library for ad-hoc bulk imports to [Iterable](https://iterable.com). 
 
 ## Getting Started
 

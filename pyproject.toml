@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "iterable-data-import"
 version = "0.1.0"
-description = "A library to simplify bulk importing data into Iterable"
+description = "A library for ad-hoc bulk imports to Iterable"
 authors = ["julianmclain <julianrmclain@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.7"
 requests = "^2.26.0"
 
 [tool.poetry.dev-dependencies]
@@ -17,15 +17,6 @@ python-dotenv = "^0.19.1"
 iterablepythonwrapper = "^1.1"
 Faker = "^9.3.1"
 pytest-mock = "^3.6.1"
-
-[tool.poetry.scripts]
-iterable-data-import = "iterable_data_import.iterable_data_import:main"
-
-[tool.pytest.ini_options]
-log_cli = true
-log_cli_level = "DEBUG"
-log_cli_format = "%(asctime)s - %(name)s - [%(levelname)s] %(message)s"
-log_cli_date_format = "%Y-%m-%d %H:%M:%S"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
