@@ -60,9 +60,8 @@ class SyncApiClient:
         return response
 
     def make_request(self, url: str, request: IterableRequest) -> requests.Response:
-        # TODO - custom retry logic based on whether the request is idempotent
-        # error on the side of caution
-        # requests doesn't retry if data made it to the server, use their retries too
+        # TODO - retry logic based on whether the request is idempotent
+        # requests doesn't retry if data made it to the server
         # 429 - retry
         # 500, 502, 503, 504 - retry if idempotent
         data = request.to_api_dict
