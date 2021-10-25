@@ -1,8 +1,7 @@
-from collections.abc import Iterator
 from enum import Enum
-from typing import Dict, Any
+from typing import Dict, Iterator
 
-SourceDataRecord = Dict[str, Any]
+SourceDataRecord = Dict[str, object]
 
 
 class FileFormat(Enum):

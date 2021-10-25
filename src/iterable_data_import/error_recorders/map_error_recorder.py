@@ -1,15 +1,14 @@
 import json
 import logging
 from pathlib import PurePath
-from typing import Any, Dict
-from abc import ABCMeta, abstractmethod
+from typing import Dict
 
 from iterable_data_import.data_sources.data_source import SourceDataRecord
 
 
-class MapErrorRecorder(metaclass=ABCMeta):
+class MapErrorRecorder:
     """
-    Class responsible for recording errors in the function that maps source
+    Abstract base class responsible for recording errors in the function that maps source
     data records to import actions
 
     Errors are persisted as JSON objects with the following keys:
@@ -17,7 +16,6 @@ class MapErrorRecorder(metaclass=ABCMeta):
     - data
     """
 
-    @abstractmethod
     def record(self, exception: Exception, data: SourceDataRecord) -> None:
         """
         Record a single map function error
@@ -41,7 +39,7 @@ class FileSystemMapErrorRecorder(MapErrorRecorder):
             "error_recorders.LocalFileSystemMapErrorRecorder"
         )
 
-    def record(self, exception: Exception, data: Dict[str, Any]):
+    def record(self, exception: Exception, data: Dict[str, object]):
         # for now eagerly write errors to the file system in case the program terminates unexpectedly
         with open(self.out_file_path, "a") as f:
             error = create_error(exception, data)
@@ -57,11 +55,11 @@ class NoOpMapErrorRecorder(MapErrorRecorder):
     def __init__(self) -> None:
         self._logger = logging.getLogger("error_recorders.NoOpMapErrorRecorder")
 
-    def record(self, exception: Exception, data: Dict[str, Any]):
+    def record(self, exception: Exception, data: Dict[str, object]):
         error = create_error(exception, data)
         self._logger.debug(f"no op logging error {error}")
 
 
-def create_error(exception: Exception, data: Dict[str, Any]):
+def create_error(exception: Exception, data: Dict[str, object]):
     error = {"exception": exception, "record": data}
     return error

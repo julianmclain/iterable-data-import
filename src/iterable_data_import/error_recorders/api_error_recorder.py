@@ -1,13 +1,12 @@
 import json
 import logging
 from pathlib import PurePath
-from typing import Any, Dict
-from abc import ABCMeta, abstractmethod
+from typing import Dict
 
 
-class ApiErrorRecorder(metaclass=ABCMeta):
+class ApiErrorRecorder:
     """
-    Class responsible for recording errors that occur while sending data to the Iterable API
+    Abstract base class responsible for recording errors that occur while sending data to the Iterable API
 
     Errors are persisted as JSON objects with the following keys:
     - response_status
@@ -15,9 +14,8 @@ class ApiErrorRecorder(metaclass=ABCMeta):
     - request_body
     """
 
-    @abstractmethod
     def record(
-        self, response_status: int, response_body: str, request_body: Dict[str, Any]
+        self, response_status: int, response_body: str, request_body: Dict[str, object]
     ) -> None:
         """
         Record a single API error
@@ -43,7 +41,7 @@ class FileSystemApiErrorRecorder(ApiErrorRecorder):
         )
 
     def record(
-        self, response_status: int, response_body: str, request_body: Dict[str, Any]
+        self, response_status: int, response_body: str, request_body: Dict[str, object]
     ):
         # for now eagerly write errors to the file system in case the program terminates unexpectedly
         with open(self.out_file_path, "a") as f:
@@ -61,14 +59,14 @@ class NoOpApiErrorRecorder(ApiErrorRecorder):
         self._logger = logging.getLogger("error_recorders.NoOpApiErrorRecorder")
 
     def record(
-        self, response_status: int, response_body: str, request_body: Dict[str, Any]
+        self, response_status: int, response_body: str, request_body: Dict[str, object]
     ):
         error = _create_error(response_status, response_body, request_body)
         self._logger.debug(f"no op logging error {error}")
 
 
 def _create_error(
-    response_status: int, response_body: str, request_body: Dict[str, Any]
+    response_status: int, response_body: str, request_body: Dict[str, object]
 ):
     error = {
         "response_status": response_status,

@@ -1,14 +1,13 @@
-from abc import ABCMeta
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, List
 
 
-class IterableResource(metaclass=ABCMeta):
+class IterableResource:
     """
-    Representations of Iterable resources
+    Representation of Iterable resources
     """
 
     @staticmethod
-    def _remove_none_values(api_obj: Dict[str, Any]) -> Dict[str, Any]:
+    def _remove_none_values(api_obj: Dict[str, object]) -> Dict[str, object]:
         return {k: v for k, v in api_obj.items() if v is not None}
 
 
@@ -22,7 +21,7 @@ class CustomEvent(IterableResource):
         event_name: str,
         email: Optional[str] = None,
         user_id: Optional[str] = None,
-        data_fields: Optional[Dict[str, Any]] = None,
+        data_fields: Optional[Dict[str, object]] = None,
         event_id: Optional[str] = None,
         template_id: Optional[int] = None,
         campaign_id: Optional[int] = None,
@@ -73,7 +72,7 @@ class UserProfile(IterableResource):
         self,
         email: Optional[str] = None,
         user_id: Optional[str] = None,
-        data_fields: Optional[Dict[str, Any]] = None,
+        data_fields: Optional[Dict[str, object]] = None,
         prefer_user_id: bool = False,
         merge_nested_objects: bool = False,
     ) -> None:
@@ -121,7 +120,7 @@ class CommerceItem(IterableResource):
         categories: Optional[List[str]] = None,
         image_url: Optional[str] = None,
         url: Optional[str] = None,
-        data_fields: Optional[Dict[str, Any]] = None,
+        data_fields: Optional[Dict[str, object]] = None,
     ) -> None:
         if not item_id or not name or not price or not quantity:
             raise ValueError(
@@ -170,7 +169,7 @@ class Purchase(IterableResource):
         items: List[CommerceItem],
         total: float,
         created_at: Optional[int] = None,
-        data_fields: Optional[Dict[str, Any]] = None,
+        data_fields: Optional[Dict[str, object]] = None,
         purchase_id: Optional[str] = None,
         campaign_id: Optional[int] = None,
         template_id: Optional[int] = None,

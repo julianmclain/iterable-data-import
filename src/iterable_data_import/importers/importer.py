@@ -1,15 +1,13 @@
-from abc import ABCMeta, abstractmethod
 from typing import List
 
 from iterable_data_import.import_action import ImportAction
 
 
-class Importer(metaclass=ABCMeta):
+class Importer:
     """
-    Class responsible for writing data to Iterable
+    Abstract base class responsible for writing data to Iterable
     """
 
-    @abstractmethod
     def handle_actions(self, actions: List[ImportAction]) -> None:
         """
         Handle a list of import actions
@@ -19,7 +17,6 @@ class Importer(metaclass=ABCMeta):
         """
         pass
 
-    @abstractmethod
     def shutdown(self) -> None:
         """
         Perform clean up tasks and shutdown.

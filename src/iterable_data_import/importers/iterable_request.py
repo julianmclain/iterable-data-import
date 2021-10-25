@@ -1,16 +1,15 @@
-from abc import ABCMeta
-from typing import Any, Dict, List
+from typing import Dict, List
 
 from iterable_data_import import UserProfile, CustomEvent, Purchase
 
 
-class IterableRequest(metaclass=ABCMeta):
+class IterableRequest:
     """
-    Class representing an Iterable API request body
+    Representation of an Iterable API request body
     """
 
     @property
-    def to_api_dict(self) -> Dict[str, Any]:
+    def to_api_dict(self) -> Dict[str, object]:
         return {}
 
 
@@ -25,7 +24,7 @@ class BulkUserUpdateRequest(IterableRequest):
         self.users = users
 
     @property
-    def to_api_dict(self) -> Dict[str, Any]:
+    def to_api_dict(self) -> Dict[str, object]:
         """
         Get the bulk update request as a dictionary structured for the Iterable API
 
@@ -46,7 +45,7 @@ class BulkTrackCustomEventRequest(IterableRequest):
         self.events = events
 
     @property
-    def to_api_dict(self) -> Dict[str, Any]:
+    def to_api_dict(self) -> Dict[str, object]:
         """
         Get the bulk track custom event request as a dictionary structured for the Iterable API
 
@@ -67,7 +66,7 @@ class TrackPurchaseRequest(IterableRequest):
         self.purchase = purchase
 
     @property
-    def to_api_dict(self) -> Dict[str, Any]:
+    def to_api_dict(self) -> Dict[str, object]:
         """
         Get the track purchase request as a dictionary structured for the Iterable API
 

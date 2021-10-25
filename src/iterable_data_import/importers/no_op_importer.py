@@ -18,4 +18,4 @@ class NoOpImporter(Importer):
             self._logger.debug(f"no op handle action {action}")
 
     def shutdown(self):
-        self._logger.debug(f"shutdown complete")
+        self._logger.debug("shutdown complete")

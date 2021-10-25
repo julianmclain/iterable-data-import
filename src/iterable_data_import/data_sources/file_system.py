@@ -1,8 +1,8 @@
 import json
 import csv
 import logging
-from collections.abc import Generator
 from pathlib import PurePath
+from typing import Generator
 
 from iterable_data_import import UnsupportedFileFormatError
 from iterable_data_import.data_sources.data_source import (
