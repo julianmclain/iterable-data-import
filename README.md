@@ -58,13 +58,13 @@ if __name__ == "__main__":
 ## SourceDataRecord
 
 When you run the import, each source record will be deserialized to a
-`SourceDataRecord`, which is a type alias for `Dict[str, Any]`.
+`SourceDataRecord`, which is a type alias for `Dict[str, object]`.
 
 ### Newline Delimited JSON data
 
 If you select `FileFormat.NEWLINE_DELIMITED_JSON` as your source file format,
-the `SourceDataRecord` passed into your map function will be a `Dict[str, Any]`
-where the `Any` type is one of the Python types that can be decoded from JSON.
+the `SourceDataRecord` passed into your map function will be a `Dict[str, object]`
+where the `object` type is one of the Python types that can be decoded from JSON.
 
 `iterable-data-import` uses the `json` standard library module to decode your
 source JSON objects. For documentation on how `json` translates JSON values to
