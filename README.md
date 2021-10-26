@@ -2,10 +2,12 @@
 
 `iterable-data-import` is a library for ad-hoc bulk imports to [Iterable](https://iterable.com). 
 
-## Getting Started
+## Installation
 
-install from pypi
-
+Install using pip:
+```bash
+$ pip install iterable-data-import
+```
 ## Usage
 
 To run an import, create an`IterableDataImport` instance and call
