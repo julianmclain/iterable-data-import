@@ -10,7 +10,7 @@ class IterableRequest:
 
     @property
     def to_api_dict(self) -> Dict[str, object]:
-        return {}
+        pass
 
 
 class BulkUserUpdateRequest(IterableRequest):
@@ -19,6 +19,8 @@ class BulkUserUpdateRequest(IterableRequest):
 
     See: https://api.iterable.com/api/docs#users_bulkUpdateUser
     """
+
+    SUCCESS_HTTP_STATUS = 200
 
     def __init__(self, users: List[UserProfile]):
         self.users = users
@@ -41,6 +43,8 @@ class BulkTrackCustomEventRequest(IterableRequest):
     See: https://api.iterable.com/api/docs#events_trackBulk
     """
 
+    SUCCESS_HTTP_STATUS = 200
+
     def __init__(self, events: List[CustomEvent]):
         self.events = events
 
@@ -61,6 +65,8 @@ class TrackPurchaseRequest(IterableRequest):
 
     See: https://api.iterable.com/api/docs#commerce_trackPurchase
     """
+
+    SUCCESS_HTTP_STATUS = 200
 
     def __init__(self, purchase: Purchase):
         self.purchase = purchase
