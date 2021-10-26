@@ -15,4 +15,4 @@ jobs:
         architecture: x64
     - run: pip install tox==3.24.4
     - run: pip install poetry==1.1.10
-    - run: tox
+#    - run: tox

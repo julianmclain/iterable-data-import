@@ -34,15 +34,13 @@ class IterableApiHelpers:
 
 def generate_csv_file(path: PurePath, num_records: int) -> None:
     with open(path, "w") as f:
-        f.write(
-            "id,email,brand_affinity_score,street_address,city,state,zip,loves_pizza\n"
-        )
+        f.write("id,email,lifetime_value,street_address,city,state,zip,loves_pizza\n")
         for i in range(0, num_records):
             user_id = random_user_id()
             email = user_id + "@placeholder.email"
-            score = random.randint(1, 100)
+            ltv = random.randint(1, 100)
             f.write(
-                f"{user_id},{email},{score},71 Stevenson St.,San Francisco,CA,94103,true\n"
+                f"{user_id},{email},{ltv},71 Stevenson St.,San Francisco,CA,94103,true\n"
             )
 
 
@@ -51,11 +49,11 @@ def generate_newline_delimited_json_file(path: PurePath, num_records: int) -> No
         for i in range(1, num_records + 1):
             user_id = random_user_id()
             email = user_id + "@placeholder.email"
-            score = random.randint(1, 100)
+            ltv = random.randint(1, 100)
             record = {
                 "id": user_id,
                 "email": email,
-                "brand_affinity_score": score,
+                "lifetime_value": ltv,
                 "address": {
                     "street_address": "71 Stevenson St.",
                     "city": "San Francisco",
